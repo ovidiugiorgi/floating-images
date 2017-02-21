@@ -45,8 +45,12 @@ function initDrag(e) {
 function doDrag(e) {
   var newWidth = startWidth + e.clientX - startX;
   var newHeight = startHeight + e.clientY - startY;
-  container.style.width = (startWidth + e.clientX - startX) + "px";
-  container.style.height = (startHeight + e.clientY - startY) + "px";
+  
+  newWidth = Math.max(newWidth, ImgSettings.width);
+  newHeight = Math.max(newHeight, ImgSettings.height);
+
+  container.style.width = newWidth + "px";
+  container.style.height = newHeight + "px";
 }
 
 function stopDrag(e) {
