@@ -18,6 +18,12 @@ Object.defineProperties(ImgSettings, {
     writable: false,
     configurable: false,
     enumerable: true
+  },
+  "margin": {
+    value: 2,
+    writable: false,
+    configurable: false,
+    enumerable: true
   }
 });
 
@@ -46,8 +52,8 @@ function doDrag(e) {
   var newWidth = startWidth + e.clientX - startX;
   var newHeight = startHeight + e.clientY - startY;
   
-  newWidth = Math.max(newWidth, ImgSettings.width);
-  newHeight = Math.max(newHeight, ImgSettings.height);
+  newWidth = Math.max(newWidth, ImgSettings.width + 2 * ImgSettings.margin);
+  newHeight = Math.max(newHeight, ImgSettings.height + 2 * ImgSettings.margin);
 
   container.style.width = newWidth + "px";
   container.style.height = newHeight + "px";
@@ -102,14 +108,18 @@ function addImages() {
   var numberOfImages = getInput();
 
   for (var i = 0; i < numberOfImages; i++) {
+    var div = document.createElement("div");
+    div.className = imgClassName;
+    div.id = i;
+    div.style.width = ImgSettings.width + "px";
+    div.style.height = ImgSettings.height + "px";
+    div.style.display = "inline-block";
+    div.style.margin = "2px";
+
     var img = document.createElement("img");
     img.src = "img/default.jpg";
-    img.className = imgClassName;
-    img.id = i;
-    img.style.width = ImgSettings.width + "px";
-    img.style.height = ImgSettings.height + "px";
-    img.draggable = false;
 
-    container.appendChild(img);
+    div.appendChild(img);
+    container.appendChild(div);
   }
 }

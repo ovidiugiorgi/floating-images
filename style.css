@@ -12,6 +12,10 @@
   -ms-user-select: none;
 }
 
+#container-img:not(:last-child) {
+  margin-left: 40px;
+}
+
 #resizer {
   width: 20px;
   height: 20px;
@@ -20,4 +24,9 @@
   right: 0;
   bottom: 0;
   cursor: se-resize;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
 }
