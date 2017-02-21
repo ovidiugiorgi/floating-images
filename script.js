@@ -19,7 +19,13 @@ Object.defineProperties(ImgSettings, {
     configurable: false,
     enumerable: true
   },
-  "margin": {
+  "marginTop": {
+    value: 2,
+    writable: false,
+    configurable: false,
+    enumerable: true
+  },
+  "marginRight": {
     value: 2,
     writable: false,
     configurable: false,
@@ -52,8 +58,8 @@ function doDrag(e) {
   var newWidth = startWidth + e.clientX - startX;
   var newHeight = startHeight + e.clientY - startY;
   
-  newWidth = Math.max(newWidth, ImgSettings.width + 2 * ImgSettings.margin);
-  newHeight = Math.max(newHeight, ImgSettings.height + 2 * ImgSettings.margin);
+  newWidth = Math.max(newWidth, ImgSettings.width + 2 * ImgSettings.marginRight);
+  newHeight = Math.max(newHeight, ImgSettings.height + 2 * ImgSettings.marginTop);
 
   container.style.width = newWidth + "px";
   container.style.height = newHeight + "px";
