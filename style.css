@@ -14,3 +14,8 @@
   bottom: 0;
   cursor: se-resize;
 }
+
+img {
+  width: 100px;
+  height: 100px;
+}
