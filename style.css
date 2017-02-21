@@ -12,15 +12,11 @@
   -ms-user-select: none;
 }
 
-#container-img:not(:last-child) {
-  margin-left: 40px;
-}
-
 #resizer {
   width: 20px;
   height: 20px;
   background: cyan;
-  position:absolute;
+  position: absolute;
   right: 0;
   bottom: 0;
   cursor: se-resize;
