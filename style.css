@@ -1,0 +1,21 @@
+#container {
+  width: 500px;
+  height: 150px;
+  border: 1px solid black;
+  position: relative;
+}
+
+.resizer {
+  width: 10px;
+  height: 10px;
+  background: darkcyan;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  cursor: se-resize;
+}
+
+img {
+  width: 100px;
+  height: 100px;
+}
