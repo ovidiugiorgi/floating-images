@@ -22,7 +22,7 @@ var input = document.getElementById("number-input");
 var pImagesNumber = document.getElementById("images-number");
 
 var startX, startY, startWidth, startHeight;
-var numberOfImagesDisplayed = 2;
+var numberOfImagesDisplayed, numberOfImagesWanted;
 
 resizer.addEventListener("mousedown", initDrag);
 btn.addEventListener("click", btnClick);
@@ -118,10 +118,10 @@ function btnClick() {
 
 function addImages(numberOfImages) {
   if (numberOfImages !== undefined) {
-    numberOfImagesDisplayed = numberOfImages;
+    numberOfImagesWanted = numberOfImages;
   }
 
-  console.log("numberOfImagesDisplayed", numberOfImagesDisplayed);
+  console.log("numberOfImagesWanted", numberOfImagesWanted);
 
   var imgClassName = "container-img";
 
@@ -136,10 +136,21 @@ function addImages(numberOfImages) {
 
   var marginLeft = ImgSettings.marginLeft;
 
-  if (maxFittingImages < numberOfImagesDisplayed) {
+  if (maxFittingImages < numberOfImagesWanted) {
     marginLeft = getDistance(maxFittingImages, containerWidth, ImgSettings.marginLeft, ImgSettings.width);
     console.log("marginLeft", marginLeft);
+
+    var rows = Math.ceil(numberOfImagesWanted / maxFittingImages);
+    var maxRows = Math.floor(containerHeight / (ImgSettings.height + ImgSettings.marginTop)); 
+    console.log("rows", rows);
+    console.log("maxRows", maxRows);
+
+    numberOfImagesDisplayed = Math.min(numberOfImagesWanted, maxRows * maxFittingImages);
+  } else {
+    numberOfImagesDisplayed = numberOfImagesWanted;
   }
+
+  console.log("numberOfImagesDisplayed", numberOfImagesDisplayed);
 
   var j = 0;
   for (var i = 0; i < numberOfImagesDisplayed; i++) {
@@ -157,7 +168,7 @@ function addImages(numberOfImages) {
     }
 
     var img = document.createElement("img");
-    img.src = "img/default.jpg";
+    img.src = "img/default1.jpg";
 
     div.appendChild(img);
     container.appendChild(div);
