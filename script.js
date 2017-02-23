@@ -22,7 +22,7 @@ var input = document.getElementById("number-input");
 var pImagesNumber = document.getElementById("images-number");
 
 var startX, startY, startWidth, startHeight;
-var numberOfImagesDisplayed;
+var numberOfImagesDisplayed = 2;
 
 resizer.addEventListener("mousedown", initDrag);
 btn.addEventListener("click", btnClick);
@@ -46,7 +46,7 @@ function doDrag(e) {
   container.style.width = newWidth + "px";
   container.style.height = newHeight + "px";
 
-  // addImages();
+  addImages();
 }
 
 function stopDrag(e) {
@@ -117,7 +117,11 @@ function btnClick() {
 }
 
 function addImages(numberOfImages) {
-  numberOfImagesDisplayed = numberOfImages;
+  if (numberOfImages !== undefined) {
+    numberOfImagesDisplayed = numberOfImages;
+  }
+
+  console.log("numberOfImagesDisplayed", numberOfImagesDisplayed);
 
   var imgClassName = "container-img";
 
@@ -132,13 +136,13 @@ function addImages(numberOfImages) {
 
   var marginLeft = ImgSettings.marginLeft;
 
-  if (maxFittingImages < numberOfImages) {
+  if (maxFittingImages < numberOfImagesDisplayed) {
     marginLeft = getDistance(maxFittingImages, containerWidth, ImgSettings.marginLeft, ImgSettings.width);
     console.log("marginLeft", marginLeft);
   }
 
   var j = 0;
-  for (var i = 0; i < numberOfImages; i++) {
+  for (var i = 0; i < numberOfImagesDisplayed; i++) {
     var div = document.createElement("div");
     div.className = imgClassName;
     div.id = i;
