@@ -26,7 +26,13 @@ var startX, startY, startWidth, startHeight;
 var numberOfImagesDisplayed, numberOfImagesWanted;
 
 resizer.addEventListener("mousedown", initDrag);
-btn.addEventListener("click", btnClick);
+btn.addEventListener("click", drawTrigger);
+document.addEventListener("keydown", function keyDownTrigger(e) {
+  if (e.keyCode == 13) {
+    drawTrigger();
+  }
+});
+
 
 function initDrag(e) {
   startX = e.clientX;
@@ -110,7 +116,7 @@ function getDistance(fittingImages, containerWidth, left, right) {
   return ans;
 }
 
-function btnClick() {
+function drawTrigger() {
   var numberOfImages = getInput();
   if (numberOfImages > 0) {
     addImages(numberOfImages);
