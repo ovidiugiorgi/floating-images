@@ -33,7 +33,6 @@ document.addEventListener("keydown", function keyDownTrigger(e) {
   }
 });
 
-
 function initDrag(e) {
   startX = e.clientX;
   startY = e.clientY;
@@ -128,8 +127,6 @@ function addImages(numberOfImages) {
     numberOfImagesWanted = numberOfImages;
   }
 
-  console.log("numberOfImagesWanted", numberOfImagesWanted);
-
   var imgClassName = "container-img";
 
   clearContainer(imgClassName);
@@ -139,25 +136,18 @@ function addImages(numberOfImages) {
 
   var maxFittingImages = fitContainer(containerWidth, ImgSettings.width, ImgSettings.marginLeft);
 
-  console.log("maxFittingImages", maxFittingImages);
-
   var marginLeft = ImgSettings.marginLeft;
 
   if (maxFittingImages < numberOfImagesWanted) {
     marginLeft = getDistance(maxFittingImages, containerWidth, ImgSettings.marginLeft, ImgSettings.width);
-    console.log("marginLeft", marginLeft);
 
     var rows = Math.ceil(numberOfImagesWanted / maxFittingImages);
     var maxRows = Math.floor(containerHeight / (ImgSettings.height + ImgSettings.marginTop)); 
-    console.log("rows", rows);
-    console.log("maxRows", maxRows);
 
     numberOfImagesDisplayed = Math.min(numberOfImagesWanted, maxRows * maxFittingImages);
   } else {
     numberOfImagesDisplayed = numberOfImagesWanted;
   }
-
-  console.log("numberOfImagesDisplayed", numberOfImagesDisplayed);
 
   var j = 0;
   for (var i = 0; i < numberOfImagesDisplayed; i++) {
@@ -175,7 +165,7 @@ function addImages(numberOfImages) {
     }
 
     var img = document.createElement("img");
-    img.src = "img/default1.jpg";
+    img.src = "img/default.jpg";
 
     div.appendChild(img);
     container.appendChild(div);
