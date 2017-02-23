@@ -22,10 +22,10 @@ var input = document.getElementById("number-input");
 var pImagesNumber = document.getElementById("images-number");
 
 var startX, startY, startWidth, startHeight;
-var numberOfImages;
+var numberOfImagesDisplayed;
 
 resizer.addEventListener("mousedown", initDrag);
-btn.addEventListener("click", addImages);
+btn.addEventListener("click", btnClick);
 
 function initDrag(e) {
   startX = e.clientX;
@@ -65,26 +65,10 @@ function clearContainer(className) {
 function getInput() {
   var inputValue = Number(input.value);
 
-  if (!Number.isInteger(inputValue) || inputValue < 0) {
+  if (!inputValue || !Number.isInteger(inputValue) || inputValue < 0) {
     alert("Please input a positive integer");
     inputValue = 0;
   }
-
-  var pImagesNumberText;
-  switch (inputValue) {
-    case 0:
-      pImagesNumberText = "are no images";
-      break;
-    case 1:
-      pImagesNumberText = "is one image";
-      break;
-    default:
-      pImagesNumberText = "are " + inputValue + " images";
-  }
-
-  pImagesNumber.innerHTML = "There " + pImagesNumberText + " displayed right now.";
-
-  input.value = "";  
 
   return inputValue;
 }
@@ -125,12 +109,19 @@ function getDistance(fittingImages, containerWidth, left, right) {
   return ans;
 }
 
-function addImages(imagesToDisplay) {
+function btnClick() {
+  var numberOfImages = getInput();
+  if (numberOfImages > 0) {
+    addImages(numberOfImages);
+  }
+}
+
+function addImages(numberOfImages) {
+  numberOfImagesDisplayed = numberOfImages;
+
   var imgClassName = "container-img";
 
   clearContainer(imgClassName);
-
-  numberOfImages = getInput();  
 
   var containerWidth = parseInt(document.defaultView.getComputedStyle(container).width, 10);
   var containerHeight = parseInt(document.defaultView.getComputedStyle(container).height, 10);
@@ -167,4 +158,20 @@ function addImages(imagesToDisplay) {
     div.appendChild(img);
     container.appendChild(div);
   }
+
+  var pImagesNumberText;
+  switch (numberOfImagesDisplayed) {
+    case 0:
+      pImagesNumberText = "are no images";
+      break;
+    case 1:
+      pImagesNumberText = "is one image";
+      break;
+    default:
+      pImagesNumberText = "are " + numberOfImagesDisplayed + " images";
+  }
+
+  pImagesNumber.innerHTML = "There " + pImagesNumberText + " displayed right now.";
+
+  input.value = "";
 }
