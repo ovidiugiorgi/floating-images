@@ -5,33 +5,14 @@ Number.isInteger = Number.isInteger || function(value) {
     Math.floor(value) === value;
 };
 
-var ImgSettings = {};
-Object.defineProperties(ImgSettings, {
-  'width': {
-    value: 100,
-    writable: false,
-    configurable: false,
-    enumerable: true
-  },
-  'height': {
-    value: 100,
-    writable: false,
-    configurable: false,
-    enumerable: true
-  },
-  "marginTop": {
-    value: 2,
-    writable: false,
-    configurable: false,
-    enumerable: true
-  },
-  "marginRight": {
-    value: 2,
-    writable: false,
-    configurable: false,
-    enumerable: true
-  }
-});
+var ImgSettings = {
+  width: 100,
+  height: 100,
+  marginTop: 2,
+  marginLeft: 2
+};
+
+Object.seal(ImgSettings);
 
 var container = document.getElementById("container");
 var resizer = document.getElementById("resizer");
@@ -41,6 +22,7 @@ var input = document.getElementById("number-input");
 var pImagesNumber = document.getElementById("images-number");
 
 var startX, startY, startWidth, startHeight;
+var numberOfImages;
 
 resizer.addEventListener("mousedown", initDrag);
 btn.addEventListener("click", addImages);
@@ -58,11 +40,13 @@ function doDrag(e) {
   var newWidth = startWidth + e.clientX - startX;
   var newHeight = startHeight + e.clientY - startY;
   
-  newWidth = Math.max(newWidth, ImgSettings.width + 2 * ImgSettings.marginRight);
+  newWidth = Math.max(newWidth, ImgSettings.width + 2 * ImgSettings.marginLeft);
   newHeight = Math.max(newHeight, ImgSettings.height + 2 * ImgSettings.marginTop);
 
   container.style.width = newWidth + "px";
   container.style.height = newHeight + "px";
+
+  // addImages();
 }
 
 function stopDrag(e) {
@@ -74,7 +58,6 @@ function clearContainer(className) {
   var elements = container.getElementsByClassName(className);
 
   while (elements[0]) {
-    console.log(elements.tagName)
     container.removeChild(elements[0]);
   }
 }
@@ -106,13 +89,64 @@ function getInput() {
   return inputValue;
 }
 
-function addImages() {
+function fitContainer(containerWidth, width, marginLeft) {
+  var widthAndMargin = width + ImgSettings.marginLeft;
+  if (containerWidth >= widthAndMargin) {
+    containerWidth -= widthAndMargin;
+    if (containerWidth >= widthAndMargin + marginLeft) {
+      containerWidth = containerWidth - widthAndMargin - marginLeft;
+      return 2 + Math.floor(containerWidth / (width + marginLeft));
+    } else {
+      return 1;
+    }
+  } else {
+    return 0;
+  }
+}
+
+function getDistance(fittingImages, containerWidth, left, right) {
+  var ans = left;
+  
+  while (left <= right) {
+    var distance = Math.floor((left + right) / 2);
+
+    var images = fitContainer(containerWidth, ImgSettings.width, distance);
+
+    if (images >= fittingImages) {
+      if (images == fittingImages) {
+        ans = Math.max(ans, distance);
+      }
+      left = distance + 1;
+    } else {
+      right = distance - 1;
+    }
+  }
+
+  return ans;
+}
+
+function addImages(imagesToDisplay) {
   var imgClassName = "container-img";
 
   clearContainer(imgClassName);
 
-  var numberOfImages = getInput();
+  numberOfImages = getInput();  
 
+  var containerWidth = parseInt(document.defaultView.getComputedStyle(container).width, 10);
+  var containerHeight = parseInt(document.defaultView.getComputedStyle(container).height, 10);
+
+  var maxFittingImages = fitContainer(containerWidth, ImgSettings.width, ImgSettings.marginLeft);
+
+  console.log("maxFittingImages", maxFittingImages);
+
+  var marginLeft = ImgSettings.marginLeft;
+
+  if (maxFittingImages < numberOfImages) {
+    marginLeft = getDistance(maxFittingImages, containerWidth, ImgSettings.marginLeft, ImgSettings.width);
+    console.log("marginLeft", marginLeft);
+  }
+
+  var j = 0;
   for (var i = 0; i < numberOfImages; i++) {
     var div = document.createElement("div");
     div.className = imgClassName;
@@ -120,7 +154,12 @@ function addImages() {
     div.style.width = ImgSettings.width + "px";
     div.style.height = ImgSettings.height + "px";
     div.style.display = "inline-block";
-    div.style.margin = "2px";
+    div.style.marginTop = "2px";
+    div.style.marginLeft = marginLeft + "px";
+    if (i == j * maxFittingImages) {
+      div.style.marginLeft = ImgSettings.marginLeft + "px";
+      j++;
+    }
 
     var img = document.createElement("img");
     img.src = "img/default.jpg";
