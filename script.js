@@ -19,7 +19,8 @@ var resizer = document.getElementById("resizer");
 
 var btn = document.getElementById("btn");
 var input = document.getElementById("number-input");
-var pImagesNumber = document.getElementById("images-number");
+var pImagesNumberDisplayed = document.getElementById("images-displayed");
+var pImagesNumberWanted = document.getElementById("images-wanted");
 
 var startX, startY, startWidth, startHeight;
 var numberOfImagesDisplayed, numberOfImagesWanted;
@@ -174,19 +175,21 @@ function addImages(numberOfImages) {
     container.appendChild(div);
   }
 
-  var pImagesNumberText;
+  var pImagesNumberDisplayedText;
   switch (numberOfImagesDisplayed) {
     case 0:
-      pImagesNumberText = "are no images";
+      pImagesNumberDisplayedText = "are no images";
       break;
     case 1:
-      pImagesNumberText = "is one image";
+      pImagesNumberDisplayedText = "is one image";
       break;
     default:
-      pImagesNumberText = "are " + numberOfImagesDisplayed + " images";
+      pImagesNumberDisplayedText = "are " + numberOfImagesDisplayed + " images";
   }
 
-  pImagesNumber.innerHTML = "There " + pImagesNumberText + " displayed right now.";
+  pImagesNumberDisplayed.innerHTML = "There " + pImagesNumberDisplayedText + " displayed right now.";
+
+  pImagesNumberWanted.innerHTML = "(Out of " + numberOfImagesWanted + ").";
 
   input.value = "";
 }
