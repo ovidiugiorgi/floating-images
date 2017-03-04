@@ -171,21 +171,23 @@ function addImages(numberOfImages) {
     container.appendChild(div);
   }
 
-  var pImagesNumberDisplayedText;
-  switch (numberOfImagesDisplayed) {
-    case 0:
-      pImagesNumberDisplayedText = "are no images";
-      break;
-    case 1:
-      pImagesNumberDisplayedText = "is one image";
-      break;
-    default:
-      pImagesNumberDisplayedText = "are " + numberOfImagesDisplayed + " images";
+  if (numberOfImagesDisplayed !== undefined) {
+    var pImagesNumberDisplayedText;
+    switch (numberOfImagesDisplayed) {
+      case 0:
+        pImagesNumberDisplayedText = "are no images";
+        break;
+      case 1:
+        pImagesNumberDisplayedText = "is one image";
+        break;
+      default:
+        pImagesNumberDisplayedText = "are " + numberOfImagesDisplayed + " images";
+    }
+
+    pImagesNumberDisplayed.innerHTML = "There " + pImagesNumberDisplayedText + " displayed right now.";
+
+    pImagesNumberWanted.innerHTML = "(Out of " + numberOfImagesWanted + ").";
+
+    input.value = "";
   }
-
-  pImagesNumberDisplayed.innerHTML = "There " + pImagesNumberDisplayedText + " displayed right now.";
-
-  pImagesNumberWanted.innerHTML = "(Out of " + numberOfImagesWanted + ").";
-
-  input.value = "";
 }
